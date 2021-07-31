@@ -1,11 +1,14 @@
+
 import Head from 'next/head'
 import Image from 'next/image'
-import 'bulma/css/bulma.min.css';
+import Navbar from "../components/navbar"
 
 export default function Home() {
   return (
     <div>
-      
+      <Head>
+      </Head>
+      <Navbar />
     </div>
   )
 }
