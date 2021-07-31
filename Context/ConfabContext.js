@@ -8,7 +8,7 @@ const ConfabContextProvider = ({children}) => {
         isUserLogin:false
     })
     return ( 
-        <ConfabContext.Provider value={{isUserLogin:globalState.isUserLogin, handleSetGlobalState:setGlobalState}}>
+        <ConfabContext.Provider value={{isUserLogin:globalState.isUserLogin, globalState ,handleSetGlobalState:setGlobalState}}>
             {children}
         </ConfabContext.Provider>
      );

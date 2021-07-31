@@ -4,9 +4,12 @@ import { ConfabContext } from "../../Context/ConfabContext";
 
 const User = () => {
     const user = useUser();
-    const {handleSetGlobalState} = 
+    const {handleSetGlobalState, globalState} = useContext(ConfabContext);
     useEffect(()=>{
-
+        handleSetGlobalState({
+            ...globalState,
+            isUserLogin:true
+        })
     },[])
 
     return ( <UserButton /> );

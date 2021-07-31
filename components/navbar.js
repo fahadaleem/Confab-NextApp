@@ -67,7 +67,7 @@ const Navbar = () => {
           <MenuItem>Home</MenuItem>
           <MenuItem>All Confabs</MenuItem>
           <MenuItem>About</MenuItem>
-          <MenuItem className={classes.loginBtn}><Link href="/signin">{isUserLogin?"Write Your Confab!":"Login"}</Link></MenuItem>
+          <MenuItem className={classes.loginBtn}><Link href="/user">Write Your Confab!</Link></MenuItem>
         </ul>
       </Toolbar>
     </AppBar>
