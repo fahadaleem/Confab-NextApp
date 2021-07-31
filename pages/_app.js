@@ -5,7 +5,7 @@ import {
   SignedOut,
   RedirectToSignIn,
 } from "@clerk/clerk-react";
-import ConfabContextProvider from "../Context/ConfabContext"
+import ConfabContextProvider from "../context/confabContext"
 
 import { useRouter } from "next/router";
 

@@ -1,6 +1,7 @@
 import {useEffect, useContext} from "react"
 import {useUser, UserButton} from "@clerk/clerk-react"
-import { ConfabContext } from "../../Context/ConfabContext";
+import { ConfabContext } from "../../context/confabContext";
+import Navbar from "../../components/userNavbar"
 
 const User = () => {
     const user = useUser();
@@ -12,7 +13,9 @@ const User = () => {
         })
     },[])
 
-    return ( <UserButton /> );
+    return (
+        <Navbar />
+     );
 }
  
 export default User;

@@ -8,14 +8,14 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import Link from "next/link"
-import {ConfabContext} from "../Context/ConfabContext"
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#FFFFFF",
   },
   heading: {
-    fontFamily: "'Raleway', sans-serif",
+    // fontFamily: "'Raleway', sans-serif",
+    fontFamily: "'Great Vibes', cursive",
     fontWeight: "700",
     fontSize: "2rem",
     color: "#185ADB",
@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   navMenu: {
     display: "flex",
     flexWrap: "wrap",
+    marginLeft:"10px",
     width: "100%",
     "& li": {
       color: "#0A1931",
@@ -51,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = () => {
  const classes = useStyles();
- const {isUserLogin} = useContext(ConfabContext);
   return (
     <AppBar
       className={classes.root}
@@ -67,7 +67,7 @@ const Navbar = () => {
           <MenuItem>Home</MenuItem>
           <MenuItem>All Confabs</MenuItem>
           <MenuItem>About</MenuItem>
-          <MenuItem className={classes.loginBtn}><Link href="/user">Write Your Confab!</Link></MenuItem>
+          <Link href="/user"><MenuItem className={classes.loginBtn}>Write Your Confab!</MenuItem></Link>
         </ul>
       </Toolbar>
     </AppBar>
