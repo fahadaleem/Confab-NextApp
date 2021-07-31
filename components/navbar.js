@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import {
   AppBar,
   Toolbar,
@@ -6,6 +7,8 @@ import {
   Menu,
   MenuItem,
 } from "@material-ui/core";
+import Link from "next/link"
+import {ConfabContext} from "../Context/ConfabContext"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,25 +33,29 @@ const useStyles = makeStyles((theme) => ({
   loginBtn: {
     marginLeft: "auto !important",
     backgroundColor: "#185ADB",
+    zIndex:"100000",
     borderRadius: "30px",
     padding: "10px 35px",
     color: "#EFEFEF!important",
     border: "2px solid #185ADB",
     fontWeight: "600",
     "&:hover": {
-      backgroundColor: "#EFEFEF",
-      color: "#185ADB !important",
-      borderColor: "#185ADB !important",
+      backgroundColor: "#185ADB",
     },
+    '& a':{
+      textDecoration:"none",
+    color: "#EFEFEF!important",
+    }
   },
 }));
 
 const Navbar = () => {
-  const classes = useStyles();
+ const classes = useStyles();
+ const {isUserLogin} = useContext(ConfabContext);
   return (
     <AppBar
       className={classes.root}
-      position="fixed"
+      position="static"
       color="primary"
       elevation={0}
     >
@@ -60,7 +67,7 @@ const Navbar = () => {
           <MenuItem>Home</MenuItem>
           <MenuItem>All Confabs</MenuItem>
           <MenuItem>About</MenuItem>
-          <MenuItem className={classes.loginBtn}>Write Your Confab!</MenuItem>
+          <MenuItem className={classes.loginBtn}><Link href="/signin">{isUserLogin?"Write Your Confab!":"Login"}</Link></MenuItem>
         </ul>
       </Toolbar>
     </AppBar>
