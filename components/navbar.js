@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     width: "100%",
     "& li": {
-      color: "#000000",
+      color: "#0A1931",
+      fontWeight: "500",
       fontFamily: "'Raleway', sans-serif",
     },
   },
@@ -32,7 +33,13 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "30px",
     padding: "10px 35px",
     color: "#EFEFEF!important",
+    border: "2px solid #185ADB",
     fontWeight: "600",
+    "&:hover": {
+      backgroundColor: "#EFEFEF",
+      color: "#185ADB !important",
+      borderColor: "#185ADB !important",
+    },
   },
 }));
 
@@ -53,7 +60,7 @@ const Navbar = () => {
           <MenuItem>Home</MenuItem>
           <MenuItem>All Confabs</MenuItem>
           <MenuItem>About</MenuItem>
-          <MenuItem className={classes.loginBtn}>Login</MenuItem>
+          <MenuItem className={classes.loginBtn}>Write Your Confab!</MenuItem>
         </ul>
       </Toolbar>
     </AppBar>
