@@ -3,3 +3,8 @@
     margin: 0;
     padding: 0;
 }
+
+.cl-component.cl-user-button {
+    height: 3rem !important;
+    width: 3rem !important;
+}

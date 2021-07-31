@@ -47,23 +47,23 @@ const useStyles = makeStyles((theme) => ({
   searchBox: {
     borderRadius: "30px",
     fontFamily: "'Raleway', sans-serif",
-    margin:"10px 0",
-    '&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline':{
-        borderColor:"#185ADB !important"
-    }
+    margin: "10px 0",
+    "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#185ADB !important",
+    },
   },
   searchDiv: {
     height: "100px",
     width: "350px",
     padding: "10px 20px",
     top: "70px !important",
-    left:"960px !important",
-    height:"150px"
+    left: "900px !important",
+    height: "150px",
   },
-  searchBoxHeading:{
+  searchBoxHeading: {
     fontFamily: "'Raleway', sans-serif",
-    fontWeight:"600",
-  }
+    fontWeight: "600",
+  },
 }));
 
 function SearchBox() {
@@ -81,8 +81,12 @@ function SearchBox() {
 
   return (
     <div>
-      <IconButton aria-label="menu-btn" onClick={handleClick} style={{marginRight:"10px"}}>
-        <SearchIcon />
+      <IconButton
+        aria-label="menu-btn"
+        onClick={handleClick}
+        style={{ marginRight: "10px" }}
+      >
+        <SearchIcon style={{ fontSize: "2rem" }} />
       </IconButton>
       <Menu
         id="simple-menu"
@@ -91,10 +95,17 @@ function SearchBox() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
         PaperProps={{
-          className:classes.searchDiv
+          className: classes.searchDiv,
         }}
       >
-        <Typography variant="h5" align="center" color="initial" className={classes.searchBoxHeading}>Search Your Topics!</Typography>
+        <Typography
+          variant="h5"
+          align="center"
+          color="initial"
+          className={classes.searchBoxHeading}
+        >
+          Search Your Topics!
+        </Typography>
         <OutlinedInput
           id="search"
           variant="outlined"
@@ -122,9 +133,15 @@ const Navbar = () => {
           Confab
         </Typography>
         <ul className={classes.navMenu}>
-          <MenuItem>All Confabs</MenuItem>
-          <MenuItem>My Confabs</MenuItem>
-          <MenuItem>Add New Confabs</MenuItem>
+          <Link href="/allconfabs">
+            <MenuItem>All Confabs</MenuItem>
+          </Link>
+          <Link href="/myconfabs">
+            <MenuItem>My Confabs</MenuItem>
+          </Link>
+          <Link href="/addnewconfabs">
+            <MenuItem>Add New Confabs</MenuItem>
+          </Link>
 
           <div className={classes.loginBtn}>
             <SearchBox />
