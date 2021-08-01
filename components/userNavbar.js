@@ -66,8 +66,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SearchBox() {
+function SearchBox(props) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [text, setText] = useState("");
 
   const handleClick = (event) => {
     setAnchorEl(event.target);
@@ -109,16 +110,24 @@ function SearchBox() {
         <OutlinedInput
           id="search"
           variant="outlined"
+          value={text}
+          onChange={e=>setText(e.target.value)}
           fullWidth
           placeholder="Search Here"
           className={classes.searchBox}
+          onKeyPress={(e)=>{
+            console.log(e.key,"check")
+            if(e.key==='Enter') {
+              props.setSearchValue(text);
+            }
+          }}
         />
       </Menu>
     </div>
   );
 }
 
-const Navbar = () => {
+const Navbar = (props) => {
   const classes = useStyles();
 
   return (
@@ -144,7 +153,7 @@ const Navbar = () => {
           </Link>
 
           <div className={classes.loginBtn}>
-            <SearchBox />
+            <SearchBox searchValue={props.searchValue} setSearchValue={props.setSearchValue}/>
 
             <UserButton />
           </div>

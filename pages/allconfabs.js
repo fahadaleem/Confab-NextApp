@@ -1,3 +1,4 @@
+import {useState, useEffect} from "react"
 import Navbar from "../components/userNavbar";
 import {Container, Grid} from '@material-ui/core'
 import Header from "../components/allconfabs/header"
@@ -21,13 +22,26 @@ export async function getStaticProps(context) {
 
 const AllConfabs = ({confabs}) => {
 
+
+  const [searchValue, setSearchValue] = useState('');
+
   const allConfabs = confabs ? Object.values(confabs):[];
+
+  const [filteredConfabs, setFilteredConfabs] = useState(allConfabs);
+
+  useEffect(() => { 
+   const filteredArray = allConfabs.filter(confab => searchValue.length > 0 ? confab.tags.includes(searchValue.toLowerCase()) : true);
+  
+   setFilteredConfabs( filteredArray );
+
+  }, [searchValue]);
+
     return ( 
         <Container maxWidth="xl">
-          <Navbar />
+          <Navbar setSearchValue={setSearchValue} searchValue={searchValue}/>
           <Header />
         <Grid container spacing={3}>
-          {allConfabs.map(confab => {
+          {filteredConfabs.map(confab => {
             const confabTags = Object.values(confab.tags);
             const confabLikes = confab.likes?Object.keys(confab.likes):[];
              return (
