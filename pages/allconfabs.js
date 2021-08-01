@@ -31,10 +31,10 @@ const AllConfabs = ({confabs}) => {
         <Grid container spacing={3}>
           {allConfabs.map(confab => {
             const confabTags = Object.values(confab.tags);
-            // const confabLiked = confab.liked;
+            const confabLikes = Object.keys(confab.likes);
              return (
-              <Grid key={confab} item lg={4} md={4} sm={12}>
-              <ConfabCard username={confab.postedBy} likedPeoplesCount={12} description = {confab.description} tags={confabTags}/>
+              <Grid key={confab.id} item lg={4} md={4} sm={12}>
+              <ConfabCard id={confab.id} username={confab.postedBy} likedPeoplesCount={12} description = {confab.description} tags={confabTags} likes={confabLikes} likedPeopleCounts = {confabLikes.length}/>
               </Grid>
              )
           } )}

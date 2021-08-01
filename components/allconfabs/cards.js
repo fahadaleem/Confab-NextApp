@@ -12,6 +12,8 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import firebase from "../../firebase-config"
+import { useUser } from "@clerk/clerk-react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,27 +69,30 @@ const useStyles = makeStyles((theme) => ({
 const ConfabCard = (props) => {
   const classes = useStyles();
 
-  const { description, tags, username } = props;
-
-  console.log(props);
+  const { description, tags, username, id, likes } = props;
+    const {id:userId} = useUser();
 
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   // creates a state variable to keep track of the number of people who have liked this card
   const [likedPeoplesCount, setLikedPeoplesCount] = useState(
-    props.likedPeoplesCount
+    props.likedPeopleCounts
   );
 
   // creates a state variable to store like/dislike button state
-  const [likeState, setLikeState] = useState(false);
+  const [likeState, setLikeState] = useState(likes&&likes.includes(userId));
 
   // creates a function to increment the number of people who have liked this card
   const incrementLikedPeoplesCount = () => {
     setLikedPeoplesCount(likedPeoplesCount + 1);
+    const db = firebase.database().ref(`confabs/${id}/likes`);
+    db.child(userId).set('liked');
   };
   // creates a function to decrement the number of people who have liked this card
   const decrementLikedPeoplesCount = () => {
     setLikedPeoplesCount(likedPeoplesCount - 1);
+    const db = firebase.database().ref(`confabs/${id}/likes`);
+    db.child(userId).remove();
   };
 
   // creates a function to toggle read more button
@@ -98,10 +103,14 @@ const ConfabCard = (props) => {
   // creates a function to toggle like/dislike button
   const toggleLike = () => {
     setLikeState(!likeState);
+
+    
+
     if (likeState) {
       decrementLikedPeoplesCount();
     } else {
       incrementLikedPeoplesCount();
+
     }
   };
 
@@ -126,10 +135,9 @@ const ConfabCard = (props) => {
         >
           {showFullDescription
             ? description
-            : `${description.slice(0, 250)}...`}
-          {
-            <a className={classes.readMoreToggleBtn} onClick={toggleReadMore}>
-              {showFullDescription ? " Read Less " : "Read More"}
+            : `${description.slice(0, 250)}`}
+          {description.length>250&&<a className={classes.readMoreToggleBtn} onClick={toggleReadMore}>
+              {showFullDescription ? " Read Less " : "...Read More"}
             </a>
           }
         </Typography>

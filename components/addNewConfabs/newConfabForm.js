@@ -13,6 +13,8 @@ import {
   IconButton,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import firebase from "../../firebase-config"
+import { useUser } from "@clerk/clerk-react";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -61,6 +63,26 @@ const AddNewConfabForm = () => {
   const classes = useStyles();
 
   const [tags, setTags] = useState([]);
+  const [confabDescription, setConfabDescription] = useState('');
+  const {fullName} = useUser();
+
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+    const db = firebase.database().ref('confabs');
+
+    const key = db.push().key;
+
+    const obj = {
+        postedBy:fullName, 
+        id:key,
+        description:confabDescription,
+        postedDated:new Date().toISOString(),
+        tags
+    }
+
+    db.child(key).set(obj);
+
+  }
 
   const handleDeleteTags = (id) => {
     let tagsAfterDeletItem = tags.filter((elem, index) => {
@@ -78,7 +100,7 @@ const AddNewConfabForm = () => {
 
   return (
     <Container maxWidth="md">
-      <form className={classes.form} onSubmit={(e) => e.preventDefault()}>
+      <form className={classes.form} onSubmit={handleSubmit}>
         <FormControl fullWidth className={classes.confabTextBox}>
           <Typography variant="h5" color="initial" className={classes.labels}>
             Type Your Confab Here:
@@ -91,6 +113,7 @@ const AddNewConfabForm = () => {
             rows={10}
             placeholder="Type Here"
             className={classes.textBox}
+            onChange={e=>setConfabDescription(e.target.value)}
           />
         </FormControl>
         <Box mt={2} display="flex">
