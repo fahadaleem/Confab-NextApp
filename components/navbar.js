@@ -64,7 +64,7 @@ const Navbar = () => {
           Confab
         </Typography>
         <ul className={classes.navMenu}>
-          <MenuItem>Home</MenuItem>
+          <Link href="/"><MenuItem>Home</MenuItem></Link>
           <MenuItem>All Confabs</MenuItem>
           <MenuItem>About</MenuItem>
           <Link href="/user"><MenuItem className={classes.loginBtn}>Write Your Confab!</MenuItem></Link>
