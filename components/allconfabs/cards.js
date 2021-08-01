@@ -18,6 +18,7 @@ import { useUser } from "@clerk/clerk-react";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: "20px 25px",
+    margin:"10px 0"
   },
   tagsDiv: {
     display: "flex",

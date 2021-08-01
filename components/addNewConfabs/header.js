@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
   mainHeading: {
     fontFamily: "raleway, sans-serif",
     fontSize: "5rem",
-    fontWeight: "600",
+    fontWeight: "500",
     color: "#EFEFEF",
   },
   subHeading: {

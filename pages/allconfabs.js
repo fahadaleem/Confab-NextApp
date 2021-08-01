@@ -20,10 +20,8 @@ export async function getStaticProps(context) {
 
 
 const AllConfabs = ({confabs}) => {
-  // console.log(confabs,'fahad')
-  console.log(Object.values(confabs), 'fahad');
 
-  const allConfabs = Object.values(confabs);
+  const allConfabs = confabs ? Object.values(confabs):[];
     return ( 
         <Container maxWidth="xl">
           <Navbar />
@@ -31,7 +29,7 @@ const AllConfabs = ({confabs}) => {
         <Grid container spacing={3}>
           {allConfabs.map(confab => {
             const confabTags = Object.values(confab.tags);
-            const confabLikes = Object.keys(confab.likes);
+            const confabLikes = confab.likes?Object.keys(confab.likes):[];
              return (
               <Grid key={confab.id} item lg={4} md={4} sm={12}>
               <ConfabCard id={confab.id} username={confab.postedBy} likedPeoplesCount={12} description = {confab.description} tags={confabTags} likes={confabLikes} likedPeopleCounts = {confabLikes.length}/>

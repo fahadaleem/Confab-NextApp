@@ -64,7 +64,7 @@ const AddNewConfabForm = () => {
 
   const [tags, setTags] = useState([]);
   const [confabDescription, setConfabDescription] = useState('');
-  const {fullName} = useUser();
+  const {fullName, id:userId} = useUser();
 
   const handleSubmit = (e)=>{
     e.preventDefault();
@@ -77,11 +77,14 @@ const AddNewConfabForm = () => {
         id:key,
         description:confabDescription,
         postedDated:new Date().toISOString(),
-        tags
+        tags,
+        userId
     }
 
     db.child(key).set(obj);
 
+    setConfabDescription('');
+    setTags([]);
   }
 
   const handleDeleteTags = (id) => {
@@ -100,7 +103,7 @@ const AddNewConfabForm = () => {
 
   return (
     <Container maxWidth="md">
-      <form className={classes.form} onSubmit={handleSubmit}>
+      <form className={classes.form} onSubmit={e => { e.preventDefault(); }}>
         <FormControl fullWidth className={classes.confabTextBox}>
           <Typography variant="h5" color="initial" className={classes.labels}>
             Type Your Confab Here:
@@ -108,6 +111,7 @@ const AddNewConfabForm = () => {
           <OutlinedInput
             id="confab"
             multiline={true}
+            value={confabDescription}
             variant="outlined"
             maxRows={15}
             rows={10}
@@ -156,7 +160,7 @@ const AddNewConfabForm = () => {
           />
         </FormControl>
         <FormControl className={classes.submitBtn}>
-          <Button variant="contained" color="default" type="submit">
+          <Button variant="contained" color="default" onClick={handleSubmit}>
             Submit
           </Button>
         </FormControl>
