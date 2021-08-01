@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 const ConfabCard = (props) => {
   const classes = useStyles();
 
-  const { description, tags } = props;
+  const { description, tags, username } = props;
 
   console.log(props);
 
@@ -113,9 +113,9 @@ const ConfabCard = (props) => {
         justifyContent="flex-start"
         alignItems="center"
       >
-        <Avatar className={classes.avatar}>F</Avatar>
+        <Avatar className={classes.avatar}>{username[0]}</Avatar>
         <Typography variant="h6" color="inherit" className={classes.postedBy}>
-          {props.username}
+          {username}
         </Typography>
       </Box>
       <Box className={classes.cardBody} mt={2}>
