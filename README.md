@@ -31,4 +31,8 @@ Confab mean is to converstation, or discussion. Confab Application is a place wh
 ![App Screenshot](https://raw.githubusercontent.com/fahadaleem/Confab-NextApp/main/demo-images/6.png?token=ANJZYRDLP7DHMXAHSUZU6YDBBAWLO)
 
 
+## Deployed link
+
+https://confab-next-app.vercel.app/
+
   
