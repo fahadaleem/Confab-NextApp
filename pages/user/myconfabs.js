@@ -55,7 +55,8 @@ const MyConfabs = ({ confabs }) => {
   };
 
   useEffect(() => {
-    handleFormatAndFilterConfabs(confabs);
+    handleFetchUpdatedConfabs();
+    // handleFormatAndFilterConfabs(confabs);
   }, []);
 
   const handleDeleteData = (confabId) => {

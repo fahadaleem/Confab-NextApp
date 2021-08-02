@@ -21,18 +21,50 @@ const AllConfabs = ({ confabs }) => {
 
   // const allConfabs = confabs ? Object.values(confabs):[];
 
-  // convert the confab object to a list of cards
-  const allConfabs = confabs
-    ? Object.keys(confabs).map((key) => {
-        const confab = confabs[key];
-        return {
-          ...confab,
-          key: key,
-        };
-      })
-    : [];
+  const [allConfabs, setAllConfabs] = useState([]);
+
+  // // convert the confab object to a list of cards
+  // const allConfabs = confabs
+  //   ? Object.keys(confabs).map((key) => {
+  //       const confab = confabs[key];
+  //       return {
+  //         ...confab,
+  //         key: key,
+  //       };
+  //     })
+  //   : [];
 
   const [filteredConfabs, setFilteredConfabs] = useState(allConfabs);
+
+  const handleFetchUpdatedConfabs = async () => {
+    const db = firebase.database().ref("/confabs");
+    const fetchedConfabs = await db.once("value").then((snap) => snap.val());
+
+    console.log(fetchedConfabs, "myconfabs");
+    handleFormatAndFilterConfabs(fetchedConfabs);
+  };
+
+  const handleFormatAndFilterConfabs = (fetchedConfabs) => {
+    console.log(fetchedConfabs, "abcs");
+    // convert the confab object to a list of cards
+    const convertedConfabs = fetchedConfabs
+      ? Object.keys(fetchedConfabs).map((key) => {
+          const confab = fetchedConfabs[key];
+          return {
+            ...confab,
+            key: key,
+          };
+        })
+      : [];
+
+    console.log(convertedConfabs, "conver");
+    setAllConfabs(convertedConfabs);
+    setFilteredConfabs(convertedConfabs);
+  };
+
+  useEffect(() => {
+    handleFetchUpdatedConfabs();
+  }, []);
 
   useEffect(() => {
     const filteredArray = allConfabs.filter((confab) =>
