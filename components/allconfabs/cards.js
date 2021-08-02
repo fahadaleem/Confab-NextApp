@@ -6,19 +6,22 @@ import {
   makeStyles,
   IconButton,
   Button,
+  Menu,
+  MenuItem,
   Avatar,
 } from "@material-ui/core";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
-import firebase from "../../firebase-config"
+import firebase from "../../firebase-config";
 import { useUser } from "@clerk/clerk-react";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: "20px 25px",
-    margin:"10px 0"
+    margin: "10px 0",
   },
   tagsDiv: {
     display: "flex",
@@ -67,11 +70,61 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function EditableMenu(props) {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  // // creates a function to delete confab cards
+  // const handleDeleteConfab = ()=>{
+  //   const db = firebase.database().ref(`/confabs/${props.confabId}`).remove();
+  // }
+
+  return (
+    <div>
+      <IconButton aria-label="menu" onClick={handleClick}>
+        <MoreVertIcon />
+      </IconButton>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem
+          onClick={() => {
+            props.handleDeleteConfab(props.confabId);
+          }}
+        >
+          Delete
+        </MenuItem>
+        <MenuItem onClick={handleClose}>Edit</MenuItem>
+      </Menu>
+    </div>
+  );
+}
+
 const ConfabCard = (props) => {
   const classes = useStyles();
 
-  const { description, tags, username, id, likes } = props;
-    const {id:userId} = useUser();
+  const {
+    description,
+    tags,
+    username,
+    confabId,
+    likes,
+    editable,
+    handleDeleteConfab,
+  } = props;
+  console.log(confabId, "this");
+  const { id: userId } = useUser();
 
   const [showFullDescription, setShowFullDescription] = useState(false);
 
@@ -81,18 +134,18 @@ const ConfabCard = (props) => {
   );
 
   // creates a state variable to store like/dislike button state
-  const [likeState, setLikeState] = useState(likes&&likes.includes(userId));
+  const [likeState, setLikeState] = useState(likes && likes.includes(userId));
 
   // creates a function to increment the number of people who have liked this card
   const incrementLikedPeoplesCount = () => {
     setLikedPeoplesCount(likedPeoplesCount + 1);
-    const db = firebase.database().ref(`confabs/${id}/likes`);
-    db.child(userId).set('liked');
+    const db = firebase.database().ref(`confabs/${confabId}/likes`);
+    db.child(userId).set("liked");
   };
   // creates a function to decrement the number of people who have liked this card
   const decrementLikedPeoplesCount = () => {
     setLikedPeoplesCount(likedPeoplesCount - 1);
-    const db = firebase.database().ref(`confabs/${id}/likes`);
+    const db = firebase.database().ref(`confabs/${confabId}/likes`);
     db.child(userId).remove();
   };
 
@@ -105,13 +158,10 @@ const ConfabCard = (props) => {
   const toggleLike = () => {
     setLikeState(!likeState);
 
-    
-
     if (likeState) {
       decrementLikedPeoplesCount();
     } else {
       incrementLikedPeoplesCount();
-
     }
   };
 
@@ -120,13 +170,23 @@ const ConfabCard = (props) => {
       <Box
         className={classes.cardTop}
         display="flex"
-        justifyContent="flex-start"
+        justifyContent="space-between"
         alignItems="center"
       >
-        <Avatar className={classes.avatar}>{username[0]}</Avatar>
-        <Typography variant="h6" color="inherit" className={classes.postedBy}>
-          {username}
-        </Typography>
+        <Box display="flex" alignItems="center">
+          <Avatar className={classes.avatar}>{username[0]}</Avatar>
+          <Typography variant="h6" color="inherit" className={classes.postedBy}>
+            {username}
+          </Typography>
+        </Box>
+        <Box>
+          {editable && (
+            <EditableMenu
+              confabId={confabId}
+              handleDeleteConfab={handleDeleteConfab}
+            />
+          )}
+        </Box>
       </Box>
       <Box className={classes.cardBody} mt={2}>
         <Typography
@@ -134,13 +194,12 @@ const ConfabCard = (props) => {
           color="initial"
           className={classes.description}
         >
-          {showFullDescription
-            ? description
-            : `${description.slice(0, 250)}`}
-          {description.length>250&&<a className={classes.readMoreToggleBtn} onClick={toggleReadMore}>
+          {showFullDescription ? description : `${description.slice(0, 250)}`}
+          {description.length > 250 && (
+            <a className={classes.readMoreToggleBtn} onClick={toggleReadMore}>
               {showFullDescription ? " Read Less " : "...Read More"}
             </a>
-          }
+          )}
         </Typography>
         <Box className={classes.tagsDiv}>
           {tags.map((tag) => {
