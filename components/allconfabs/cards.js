@@ -17,6 +17,7 @@ import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import firebase from "../../firebase-config";
 import { useUser } from "@clerk/clerk-react";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import EditModal from "../myconfabs/editModal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,9 +69,14 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "'Raleway', sans-serif",
     // fontSize:"0.8rem"
   },
+  menu: {
+    // padding:"10px 15px"
+    width: "100px",
+  },
 }));
 
 function EditableMenu(props) {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -97,6 +103,9 @@ function EditableMenu(props) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        PaperProps={{
+          className: classes.menu,
+        }}
       >
         <MenuItem
           onClick={() => {
@@ -105,7 +114,12 @@ function EditableMenu(props) {
         >
           Delete
         </MenuItem>
-        <MenuItem onClick={handleClose}>Edit</MenuItem>
+        <EditModal
+          handleFetchUpdatedConfabs={props.handleFetchUpdatedConfabs}
+          confabId={props.confabId}
+          tags={props.tags}
+          description={props.description}
+        />
       </Menu>
     </div>
   );
@@ -122,6 +136,7 @@ const ConfabCard = (props) => {
     likes,
     editable,
     handleDeleteConfab,
+    handleFetchUpdatedConfabs,
   } = props;
   console.log(confabId, "this");
   const { id: userId } = useUser();
@@ -184,6 +199,10 @@ const ConfabCard = (props) => {
             <EditableMenu
               confabId={confabId}
               handleDeleteConfab={handleDeleteConfab}
+              description={description}
+              tags={tags}
+              confabId={confabId}
+              handleFetchUpdatedConfabs={handleFetchUpdatedConfabs}
             />
           )}
         </Box>

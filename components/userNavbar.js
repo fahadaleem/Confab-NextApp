@@ -111,13 +111,13 @@ function SearchBox(props) {
           id="search"
           variant="outlined"
           value={text}
-          onChange={e=>setText(e.target.value)}
+          onChange={(e) => setText(e.target.value)}
           fullWidth
           placeholder="Search Here"
           className={classes.searchBox}
-          onKeyPress={(e)=>{
-            console.log(e.key,"check")
-            if(e.key==='Enter') {
+          onKeyPress={(e) => {
+            console.log(e.key, "check");
+            if (e.key === "Enter") {
               props.setSearchValue(text);
             }
           }}
@@ -153,7 +153,10 @@ const Navbar = (props) => {
           </Link>
 
           <div className={classes.loginBtn}>
-            <SearchBox searchValue={props.searchValue} setSearchValue={props.setSearchValue}/>
+            <SearchBox
+              searchValue={props.searchValue}
+              setSearchValue={props.setSearchValue}
+            />
 
             <UserButton />
           </div>

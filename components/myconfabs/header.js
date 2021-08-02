@@ -23,7 +23,12 @@ const Header = () => {
   const classes = useStyles();
   return (
     <div className={classes.header}>
-      <Typography variant="h2" color="initial" align="center" className={classes.mainHeading}>
+      <Typography
+        variant="h2"
+        color="initial"
+        align="center"
+        className={classes.mainHeading}
+      >
         My Confabs!
       </Typography>
     </div>

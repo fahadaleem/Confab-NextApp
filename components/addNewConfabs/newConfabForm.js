@@ -13,8 +13,10 @@ import {
   IconButton,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-import firebase from "../../firebase-config"
+import firebase from "../../firebase-config";
 import { useUser } from "@clerk/clerk-react";
+import Swal from "sweetalert2";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -57,35 +59,95 @@ const useStyles = makeStyles((theme) => ({
     color: "#EFEFEF",
     fontSize: "1rem",
   },
+  modalText: {
+    fontFamily: "raleway, sans-serif !important",
+    color: "#185ADB !important",
+  },
+  modalBtn: {
+    backgroundColor: "#185ADB !important",
+    fontSize: "1.2rem",
+    padding: "10px 35px",
+  },
+  modalEditText: {
+    color: "#f27474 !important",
+  },
+  modalContainer: {
+    zIndex: "19999999",
+  },
 }));
 
-const AddNewConfabForm = () => {
+const AddNewConfabForm = (props) => {
   const classes = useStyles();
 
-  const [tags, setTags] = useState([]);
-  const [confabDescription, setConfabDescription] = useState('');
-  const {fullName, id:userId} = useUser();
+  const router = useRouter();
+  const { editable } = props;
+  const [tags, setTags] = useState(editable ? props.tags : []);
+  const [confabDescription, setConfabDescription] = useState(
+    editable ? props.description : ""
+  );
+  const { fullName, id: userId } = useUser();
 
-  const handleSubmit = (e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const db = firebase.database().ref('confabs');
+    const db = firebase.database().ref("confabs");
 
     const key = db.push().key;
 
-    const obj = {
-        postedBy:fullName, 
-        id:key,
-        description:confabDescription,
-        postedDated:new Date().toISOString(),
+    if (tags.length > 0 && confabDescription.length > 0) {
+      const obj = {
+        postedBy: fullName,
+        id: key,
+        description: confabDescription,
+        postedDated: new Date().toISOString(),
         tags,
-        userId
+        userId,
+      };
+
+      db.child(key).set(obj);
+
+      setConfabDescription("");
+      setTags([]);
+
+      Swal.fire({
+        title: "Success",
+        text: "Your confab added succesfully!",
+        customClass: {
+          title: `${classes.modalText}`,
+          container: `${classes.modalText}`,
+          confirmButton: `${classes.modalBtn}`,
+        },
+      });
+    } else {
+      Swal.fire({
+        title: "Error!",
+        icon: "error",
+        text: "Please fill out all the fields!",
+        customClass: {
+          title: `${classes.modalEditText}`,
+          container: `${classes.modalText}`,
+          confirmButton: `${classes.modalBtn}`,
+        },
+      });
     }
+  };
 
-    db.child(key).set(obj);
+  const handleUpdateData = (confabId) => {
+    firebase.database().ref(`/confabs/${confabId}`).update({
+      tags,
+      description: confabDescription,
+    });
 
-    setConfabDescription('');
-    setTags([]);
-  }
+    props.handleFetchUpdatedConfabs();
+    Swal.fire({
+      title: "Success",
+      text: "Your confab added succesfully!",
+      customClass: {
+        title: `${classes.modalText}`,
+        container: `${classes.modalText} ${classes.modalContainer}`,
+        confirmButton: `${classes.modalBtn}`,
+      },
+    }).then((resp) => props.handleClose());
+  };
 
   const handleDeleteTags = (id) => {
     let tagsAfterDeletItem = tags.filter((elem, index) => {
@@ -103,7 +165,12 @@ const AddNewConfabForm = () => {
 
   return (
     <Container maxWidth="md">
-      <form className={classes.form} onSubmit={e => { e.preventDefault(); }}>
+      <form
+        className={classes.form}
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <FormControl fullWidth className={classes.confabTextBox}>
           <Typography variant="h5" color="initial" className={classes.labels}>
             Type Your Confab Here:
@@ -117,10 +184,11 @@ const AddNewConfabForm = () => {
             rows={10}
             placeholder="Type Here"
             className={classes.textBox}
-            onChange={e=>setConfabDescription(e.target.value)}
+            autoFocus={editable}
+            onChange={(e) => setConfabDescription(e.target.value)}
           />
         </FormControl>
-        <Box mt={2} display="flex">
+        <Box mt={2} display="flex" flexWrap="wrap">
           {tags.map((tag, index) => {
             return (
               <Box
@@ -160,7 +228,17 @@ const AddNewConfabForm = () => {
           />
         </FormControl>
         <FormControl className={classes.submitBtn}>
-          <Button variant="contained" color="default" onClick={handleSubmit}>
+          <Button
+            variant="contained"
+            color="default"
+            onClick={
+              editable
+                ? () => {
+                    handleUpdateData(props.confabId);
+                  }
+                : handleSubmit
+            }
+          >
             Submit
           </Button>
         </FormControl>

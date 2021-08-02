@@ -1,8 +1,5 @@
-
-import Head from 'next/head'
-import Image from 'next/image'
-import Navbar from "../components/navbar"
-import Header from "../components/header"
+import Navbar from "../components/navbar";
+import Header from "../components/header";
 
 export default function Home() {
   return (
@@ -10,5 +7,5 @@ export default function Home() {
       <Navbar />
       <Header />
     </div>
-  )
+  );
 }

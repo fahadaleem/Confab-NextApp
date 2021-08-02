@@ -7,7 +7,7 @@ import {
   Menu,
   MenuItem,
 } from "@material-ui/core";
-import Link from "next/link"
+import Link from "next/link";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   navMenu: {
     display: "flex",
     flexWrap: "wrap",
-    marginLeft:"10px",
+    marginLeft: "10px",
     width: "100%",
     "& li": {
       color: "#0A1931",
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   loginBtn: {
     marginLeft: "auto !important",
     backgroundColor: "#185ADB",
-    zIndex:"100000",
+    zIndex: "100000",
     borderRadius: "30px",
     padding: "10px 35px",
     color: "#EFEFEF!important",
@@ -43,15 +43,15 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "#185ADB",
     },
-    '& a':{
-      textDecoration:"none",
-    color: "#EFEFEF!important",
-    }
+    "& a": {
+      textDecoration: "none",
+      color: "#EFEFEF!important",
+    },
   },
 }));
 
 const Navbar = () => {
- const classes = useStyles();
+  const classes = useStyles();
   return (
     <AppBar
       className={classes.root}
@@ -64,10 +64,14 @@ const Navbar = () => {
           Confab
         </Typography>
         <ul className={classes.navMenu}>
-          <Link href="/"><MenuItem>Home</MenuItem></Link>
+          <Link href="/">
+            <MenuItem>Home</MenuItem>
+          </Link>
           <MenuItem>All Confabs</MenuItem>
           <MenuItem>About</MenuItem>
-          <Link href="/user"><MenuItem className={classes.loginBtn}>Write Your Confab!</MenuItem></Link>
+          <Link href="/user">
+            <MenuItem className={classes.loginBtn}>Write Your Confab!</MenuItem>
+          </Link>
         </ul>
       </Toolbar>
     </AppBar>

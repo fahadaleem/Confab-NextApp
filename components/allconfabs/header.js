@@ -43,14 +43,7 @@ const Header = () => {
         <div>
             <Container maxWidth="xl">
               <Typography variant="h2" color="initial" align="center" className={classes.mainHeading}>Find All Confabs Here!</Typography>
-                {/* <div className={classes.tagsDiv}>
-                    {tags.map(tag => {
-                       return (
-                            <Box key={tag} className={classes.tags}>
-                                <Button className={classes.tagsName}>#{tag}</Button>
-                            </Box> )
-            })}
-                </div> */}
+               
             <Divider style={{margin:"10px 0"}}/>
             </Container>
         </div>
