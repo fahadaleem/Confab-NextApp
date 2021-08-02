@@ -201,7 +201,6 @@ const ConfabCard = (props) => {
               handleDeleteConfab={handleDeleteConfab}
               description={description}
               tags={tags}
-              confabId={confabId}
               handleFetchUpdatedConfabs={handleFetchUpdatedConfabs}
             />
           )}
