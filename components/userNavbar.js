@@ -142,13 +142,13 @@ const Navbar = (props) => {
           Confab
         </Typography>
         <ul className={classes.navMenu}>
-          <Link href="/allconfabs">
+          <Link href="/user">
             <MenuItem>All Confabs</MenuItem>
           </Link>
-          <Link href="/myconfabs">
+          <Link href="/user/myconfabs">
             <MenuItem>My Confabs</MenuItem>
           </Link>
-          <Link href="/addnewconfabs">
+          <Link href="/user/addnewconfabs">
             <MenuItem>Add New Confabs</MenuItem>
           </Link>
 
