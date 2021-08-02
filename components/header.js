@@ -27,7 +27,6 @@ const Header = () => {
     <div>
       <Grid
         container
-        spacing={2}
         alignItems="center"
         className={classes.container}
       >
